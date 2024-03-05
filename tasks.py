@@ -217,12 +217,13 @@ def ocr_page_with_tesseract(job_id, assigned_ref_no, primary_witness, language_m
                     with open(page_file_path, 'wb') as img_out:
                         shutil.copyfileobj(img_download.raw, img_out)
 
+                os.environ['OMP_THREAD_LIMIT'] = '1'
                 command = [
                     "tesseract",
                     page_file_path,
                     page_file_results,
                     "-l", language_model,
-                    #"--psm", "6",
+                    "--psm", "1",
                     "hocr", "txt"
                 ]
 
