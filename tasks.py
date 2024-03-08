@@ -10,6 +10,7 @@ from django.utils.text import slugify
 from huey.contrib.djhuey import db_task
 from timeit import default_timer as timer
 from corpus import *
+from .content import REGISTRY as CONTENT_TYPE_REGISTRY
 
 REGISTRY = {
     "OCR Document with Tesseract 5": {
@@ -280,6 +281,11 @@ def register_language_models(job_id):
     download_models = job.get_param_value('download_models') == 'Yes'
 
     job.set_status("running")
+
+    if 'TesseractLanguageModel' not in job.corpus.content_types:
+        for ct in CONTENT_TYPE_REGISTRY:
+            if ct['name'] == 'TesseractLanguageModel':
+                job.corpus.save_content_type(ct)
 
     code_language_map = {}
     plugin_dir = os.path.dirname(os.path.abspath(__file__))

@@ -19,8 +19,8 @@ volume that can also be mounted inside the `TessTrainer` container detailed belo
 Because Tesseract models can be large, no default models are included with the plugin. Also, in order to keep track of
 the fonts for OCR/training purposes, the `TesseractLanguageModel` content type must be defined. The best way to both
 define the `TesseractLanguageModel` content type and also download models for most languages is to run the `Register Tesseract Language Models`
-task. This can be done by going to the `Admin` tab of a corpus page and clicking `Run Job.` When you check the
-`Download Existing Language Models?` checkbox before launching the job, it will ensure that the language models in this 
+task. This can be done by going to the `Admin` tab of a corpus page and clicking `Run Job.` When you leave `Yes` selected for the 
+`Download Existing Language Models?` parameter before launching the job, it will ensure that the language models in this 
 Git repository are downloaded and installed: https://github.com/tesseract-ocr/tessdata_best
 
 ## Configuration for Font Training
