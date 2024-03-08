@@ -117,7 +117,7 @@ REGISTRY = {
 }
 
 TESSERACT_FONT_DIR = '/usr/share/tesseract-ocr/5/tessdata'
-TRAINING_TIMEOUT_MINUTES_PER_PAGE = 30
+TRAINING_TIMEOUT_MINUTES_PER_PAGE = 5
 
 
 @db_task(priority=2)
@@ -126,7 +126,6 @@ def ocr_document_with_tesseract(job_id):
     job.set_status('running')
 
     try:
-        ocr_job_name = job.get_param_value('name')
         page_file_collection_key = job.get_param_value('collection')
         pageset_key = job.get_param_value('pageset')
         page_files = job.content.page_file_collections[page_file_collection_key]['page_files']
@@ -234,7 +233,7 @@ def ocr_page_with_tesseract(job_id, assigned_ref_no, primary_witness, language_m
                         txt_file_obj = File.process(
                             page_file_results + '.txt',
                             desc='Plain Text',
-                            prov_type='Tesseract5 OCR Job',
+                            prov_type=f'Tesseract5 OCR Job ({ocr_job_name})',
                             prov_id=str(job_id),
                             primary=primary_witness
                         )
@@ -244,7 +243,7 @@ def ocr_page_with_tesseract(job_id, assigned_ref_no, primary_witness, language_m
                         hocr_file_obj = File.process(
                             page_file_results + '.hocr',
                             desc='HOCR',
-                            prov_type='Tesseract5 OCR Job',
+                            prov_type=f'Tesseract5 OCR Job ({ocr_job_name})',
                             prov_id=str(job_id),
                             primary=primary_witness
                         )
@@ -410,7 +409,7 @@ def train_language_model(job_id):
                         else:
                             model.pages_trained = image_count
                         model.save()
-                        job.complete('complete', percent_complete=100)
+                        job.complete('complete')
                         completed = True
 
         else:

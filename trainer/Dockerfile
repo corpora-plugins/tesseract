@@ -31,3 +31,5 @@ RUN rm -r ./reflex_linux*
 COPY ./do_training.py /root/do_training.py
 WORKDIR /root/transom
 ENV TESSDATA_PREFIX=/root/tesseract/tessdata
+
+CMD ../reflex -r '_trainingset\.json$' python3 /root/do_training.py {}
