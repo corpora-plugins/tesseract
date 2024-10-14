@@ -118,7 +118,7 @@ REGISTRY = {
 }
 
 TESSERACT_FONT_DIR = '/usr/share/tesseract-ocr/5/tessdata'
-TRAINING_TIMEOUT_MINUTES_PER_PAGE = 5
+TRAINING_TIMEOUT_MINUTES = 120
 
 
 @db_task(priority=2)
@@ -392,7 +392,7 @@ def train_language_model(job_id):
 
                     image_count = len(training_set['images'])
                     slept_seconds = 0
-                    timeout_seconds = image_count * TRAINING_TIMEOUT_MINUTES_PER_PAGE * 60
+                    timeout_seconds = TRAINING_TIMEOUT_MINUTES * 60
                     while os.path.exists(training_set_file) and slept_seconds < timeout_seconds:
                         sleep(30)
                         slept_seconds += 30
