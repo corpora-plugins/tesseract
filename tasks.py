@@ -118,7 +118,7 @@ REGISTRY = {
 }
 
 TESSERACT_FONT_DIR = '/usr/share/tesseract-ocr/5/tessdata'
-TRAINING_TIMEOUT_MINUTES = 120
+TRAINING_TIMEOUT_MINUTES = 300
 
 
 @db_task(priority=2)
@@ -345,7 +345,7 @@ def train_language_model(job_id):
 
     if transom_dir and font_dir and os.path.exists(transom_dir) and os.path.exists(font_dir):
         doc = trans_project.document
-        if trans_project.pageset in doc.page_sets and trans_project.image_pfc:
+        if (trans_project.pageset == 'all' or trans_project.pageset in doc.page_sets) and trans_project.image_pfc:
             pageset = trans_project.pageset
             image_pfc = doc.get_page_file_collection(trans_project.image_pfc, pageset)
             transcriptions = job.corpus.get_content('Transcription', {'project': trans_project_id})
