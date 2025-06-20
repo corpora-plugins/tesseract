@@ -9,8 +9,9 @@ from subprocess import call
 from django.utils.text import slugify
 from huey.contrib.djhuey import db_task
 from timeit import default_timer as timer
-from corpus import *
 from .content import REGISTRY as CONTENT_TYPE_REGISTRY
+from corpus import Job, File
+
 
 REGISTRY = {
     "OCR Document with Tesseract 5": {
